@@ -190,5 +190,13 @@ def update_dashboard(selected_status):
 
     return table, fig
 
+# Initialize the Dash app
+app = dash.Dash(__name__)
+
+# Expose the WSGI server variable for Gunicorn
+server = app.server  # Gunicorn needs this
+
+# Run the Dash app
 if __name__ == "__main__":
     app.run_server(debug=True)
+
