@@ -193,8 +193,26 @@ def update_dashboard(selected_status):
 # Initialize the Dash app
 app = dash.Dash(__name__)
 
-# Expose the WSGI server variable for Gunicorn
-server = app.server  # Gunicorn needs this
+# ✅ Ensure a layout is defined before running the app
+app.layout = html.Div([
+    html.H1("UKPN Live Faults Tracker"),
+    dcc.Dropdown(
+        id="status-filter",
+        options=[
+            {"label": "All", "value": "All"},
+            {"label": "Planned", "value": "Planned"},
+            {"label": "Unplanned", "value": "Unplanned"}
+        ],
+        value="All",
+        clearable=False,
+        style={"width": "50%"}
+    ),
+    html.Div(id="faults-table", style={"padding": "20px 0"}),
+    dcc.Graph(id="faults-map")
+])
+
+# Expose Flask server for Gunicorn
+server = app.server  
 
 # Run the Dash app
 if __name__ == "__main__":
